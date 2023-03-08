@@ -6,7 +6,7 @@ from datetime import datetime
 def CreateUsers():
     print('##### Create users, passwords, and roles #####')
     ########## Open the file user.txt in append mode and assign to UserFile
-    with open("Users.txt", "a+") as UserFile:
+    with open("Users.txt", "a") as UserFile:
        while True:
         ########## Write the line of code that will call function GetUserName and assign the return value to username
         def GetUserName():
@@ -199,6 +199,6 @@ if __name__ == "__main__":
                 EmpDetail = fromdate + "|" + todate  + "|" + empname  + "|" + str(hours)  + "|" + str(hourlyrate)  + "|" + str(taxrate) + "\n"  
                 EmpFile.write(EmpDetail)
         # close file to save data
-            EmpFile.close()
+        EmpFile.close()
         printuserinfo()   
         printinfo(DetailsPrinted)
