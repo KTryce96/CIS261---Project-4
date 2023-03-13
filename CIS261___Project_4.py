@@ -9,38 +9,32 @@ def CreateUsers():
     with open("Users.txt", "a") as UserFile:
        while True:
         ########## Write the line of code that will call function GetUserName and assign the return value to username
-        def GetUserName():
-            username = float(input('Enter user name or "End" to quit:  '))
-            return username
+        username = input('Enter user name or "End" to quit:  ')
         if (username.upper() == "END"):
             break
         ########## Write the line of code that will call function GetUserPassword and assign the return value to userpwd
-        def GetUserPassword():
-            userpwd = float(input('Enter password:  '))
-            return userpwd
+        userpwd = input('Enter password:  ')
         ########## Write the line of code that will call function GetUserRole() and assign the return value to userrole
-        def GetUserRole():
-            userrole = input("Enter role (Admin or User): ")
-            return userrole
+        userrole = input("Enter role (Admin or User): ")
         UserDetail = username + "|" + userpwd + "|" + userrole + "\n"  
         UserFile.write(UserDetail)
     # close file to save data
     ########## Write the line of code that will close the file UserFile
     UserFile.close()   
-    
+    printuserinfo()
 
 def GetUserName():
     ##### write the code to enter the username or End and return username 
-    username = float(input('Enter user name or End to quit:  '))
-    return username
+    username = input('Enter user name or End to quit:  ')
+   
 
-    def GetUserPassword():
+def GetUserPassword():
     ##### write the code to enter the pwd and return pwd
-        pwd = float(input('Enter password:  '))
-        return pwd
+    pwd = input('Enter password:  ')
+    
 
-    def GetUserRole():
-     UserRole = input("Enter role (Admin or User): ")
+def GetUserRole():
+     userrole = input("Enter role (Admin or User): ")
      while True:
          if (userrole == "Admin"): 
             return userrole
@@ -48,6 +42,7 @@ def GetUserName():
             return userrole   
          else:
             print("Enter role (Admin or User): ")
+
 def printuserinfo():
     UserFile = open('Users.txt',"r")
     while True:
@@ -57,31 +52,30 @@ def printuserinfo():
         UserDetail = UserDetail.replace("\n", "") #remove carriage return from end of line
         UserList = UserDetail.split("|")
         username = UserList[0]
-        userpassword = UserList[1]
+        pwd = UserList[1]
         userrole = UserList[2]
-        print("User Name: ", username, " Password: ", userpassword, " Role: ", userrole)
+        print("User Name: ", username, " Password: ", pwd, " Role: ", userrole)
 
 ############################################################################################
 
 def Login():
         # read login information and store in a list
     ########## Write the line of code that will open the file Users.txt in read mode
-    with open("Users.txt","r") as UserFile:
+    with open('Users.txt','r') as UserFile:
         UserName = input("Enter User Name: ")
         UserRole = "None"
-    while True:
-       ########## Write the line of code that will read a line from UserFile and assign it to UserDetail
-       UserDetail = UserFile.readline()      
-       if not UserDetail:
+        while True:
+           ########## Write the line of code that will read a line from UserFile and assign it to UserDetail
+           UserDetail = UserFile.readline()
+           ########## Write the line of code that will replace the carriage return in UserDetail
+           UserDetail = UserDetail.replace("\n", "")
+       
+           ########## Write the line of code that will split UserDetail on the pipe delimiter (|) and assign it to UserList
+           UserList = UserDetail.split("|")           
+           if UserName == UserList[0]:
+              UserRole = UserList[2]  # user is valid, return role
+              return UserRole, UserName
            return UserRole, UserName
-       ########## Write the line of code that will replace the carriage return in UserDetail
-       UserDetail = UserDetail.replace("\n", "")
-       ########## Write the line of code that will split UserDetail on the pipe delimiter (|) and assign it to UserList
-       UserList = UserDetail.split("|")           
-       if UserName == UserList[0]:
-            UserRole = UserList[2]  # user is valid, return role
-            return UserRole, UserName
-    return UserRole, UserName
 #########################################################################################
 def GetEmpName():
     empname = input("Enter employee name: ")
@@ -112,9 +106,9 @@ def printinfo(DetailsPrinted):
     TotTax = 0.00
     TotNetPay = 0.00 
     
-    EmpFile = open("Employees.txt", "a+") 
+    EmpFile = open("Employees.txt", "r") 
     while True:
-        rundate = input ("Enter start date for report (MM/DD/YYYY) or All for all data in file: ")
+        rundate = input("Enter start date for report (MM/DD/YYYY) or All for all data in file: ")
         if (rundate.upper() == "ALL"):
             break
         try:
@@ -154,7 +148,7 @@ def printinfo(DetailsPrinted):
         EmpTotals["TotNetPay"] = TotNetPay
         DetailsPrinted = True   
     if (DetailsPrinted):  #skip of no detail lines printed
-        PrintTotals (EmpTotals)
+       PrintTotals(EmpTotals)
     else:
         print("No detail information to print")
 def PrintTotals(EmpTotals):    
@@ -171,10 +165,9 @@ def PrintTotals(EmpTotals):
 if __name__ == "__main__":
     ##################################################
     ########## Write the line of code to call the method CreateUsers
-    def CreateUsers():
-        Users = userrole + username
-        print()
-        print("##### Data Entry #####")
+    CreateUsers()
+    print()
+    print("##### Data Entry #####")
     ########## Write the line of code to assign UserRole and UserName to the function Login
     UserRole, UserName = Login()
     DetailsPrinted = False  ###
@@ -186,7 +179,6 @@ if __name__ == "__main__":
     # only admin users can enter data
         ##### write the if statement that will check to see if the UserRole is equal to ADMIN (NOTE: code will show red error lines until this line is written)
         if (UserRole.upper() == "ADMIN"):
-            print(UserRole," is invalid.")
             EmpFile = open("Employees.txt", "a+")                
             while True:
                 empname = GetEmpName()
@@ -199,6 +191,6 @@ if __name__ == "__main__":
                 EmpDetail = fromdate + "|" + todate  + "|" + empname  + "|" + str(hours)  + "|" + str(hourlyrate)  + "|" + str(taxrate) + "\n"  
                 EmpFile.write(EmpDetail)
         # close file to save data
-        EmpFile.close()
-        printuserinfo()   
+            EmpFile.close()
+        printuserinfo()
         printinfo(DetailsPrinted)

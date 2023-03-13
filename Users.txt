@@ -1,0 +1,6 @@
+KGaines|*bebetter*|Admin
+RJones|*almost!|User
+SHoward|.toolate.|User
+MOwens|!notever*|Admin
+TRhodes|+closeenough=|User
+SGreen|!hellothere$|User
